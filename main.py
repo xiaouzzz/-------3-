@@ -5,7 +5,7 @@ from tkinter import scrolledtext
 # 定义文法
 grammar = {
     'S': ['bASB', 'bA'],
-    'A': ['dSa', 'ε'],
+    'A': ['dSa', 'e'],
     'B': ['cAa', 'c']
 }
 
@@ -20,16 +20,16 @@ def compute_first_sets(grammar):
             return {symbol}
         result = set()
         for production in grammar[symbol]:
-            if production == 'ε':
-                result.add('ε')
+            if production == 'e':
+                result.add('e')
             else:
                 for char in production:
                     char_first = first_of(char)
-                    result |= (char_first - {'ε'})
-                    if 'ε' not in char_first:
+                    result |= (char_first - {'e'})
+                    if 'e' not in char_first:
                         break
                 else:
-                    result.add('ε')
+                    result.add('e')
         first[symbol] = result
         return result
 
@@ -53,8 +53,8 @@ def compute_follow_sets(grammar, first_sets):
                         if follow[symbol] != follow[symbol] | trailer:
                             follow[symbol] |= trailer
                             updated = True
-                        if 'ε' in first_sets[symbol]:
-                            trailer |= (first_sets[symbol] - {'ε'})
+                        if 'e' in first_sets[symbol]:
+                            trailer |= (first_sets[symbol] - {'e'})
                         else:
                             trailer = first_sets[symbol]
                     else:
